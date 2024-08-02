@@ -19,4 +19,4 @@ Available URLs:
 
 ## TODOs
 
-- [ ] Add Update and Delete operations
+- [x] Add Update and Delete operations
