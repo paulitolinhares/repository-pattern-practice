@@ -1,30 +1,24 @@
 import { Post } from "../models/post";
 import { PostRequest } from "../routes/posts";
 import db from '../db'
+import { Repository } from "./types";
 
-interface PostsRepository {
-  getPosts(): Promise<Post[]>;
-  getPostById(id: number): Promise<Post>;
-  createPost(post: PostRequest): Promise<Post>;
-  updatePost(post: PostRequest): Promise<void>;
-  deletePost(id: number): Promise<void>;
-}
-
-const postsRepository: PostsRepository = {
-  async getPosts() {
+const postsRepository: Repository<Post> = {
+  async getAll() {
     return await db.post.findMany();
   },
-  async getPostById(id) {
+  async getById(id) {
     return await db.post.findUnique({ where: { id } });
   },
-  async createPost(post) {
+  async create(post) {
     return await db.post.create({ data: post });
   },
-  async updatePost(post) {
-    // This is a placeholder for a real implementation
+  async update(post) {
+    const { id, ...data } = post;
+    return await db.post.update({ where: { id: post.id }, data });
   },
-  async deletePost(id) {
-    // This is a placeholder for a real implementation
+  async delete(id) {
+    await db.post.delete({ where: { id } });
   },
 };
 
